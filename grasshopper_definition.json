@@ -1,0 +1,51 @@
+{
+    "components": {
+      "point_1": {
+        "type": "Point",
+        "position": [100, 200],
+        "value": [1.0, 2.0, 3.0],
+        "outputs": {
+          "Point": {
+            "data_handling": [],
+            "connections": ["circle_1:Center"]
+          }
+        }
+      },
+      "slider_1": {
+        "type": "NumberSlider",
+        "position": [120, 220],
+        "value": 5.0,
+        "outputs": {
+          "Value": {
+            "data_handling": [],
+            "connections": ["circle_1:Radius"]
+          }
+        }
+      },
+      "circle_1": {
+        "type": "Circle",
+        "position": [200, 300],
+        "inputs": {
+          "Center": {
+            "data_handling": ["flatten"],
+            "connections": ["point_1:Point"]
+          },
+          "Radius": {
+            "data_handling": [],
+            "connections": ["slider_1:Value"]
+          }
+        },
+        "outputs": {
+          "Circle": {
+            "data_handling": ["graft"],
+            "connections": []
+          }
+        }
+      }
+    },
+    "id_map": {
+      "point_1": "b1c2d3e4-5678-1234-5678-abcdefabcdef",
+      "slider_1": "c2d3e4f5-6789-2345-6789-bcdefabcdefa",
+      "circle_1": "d3e4f5g6-7890-3456-7890-cdefabcdefab"
+    }
+  }

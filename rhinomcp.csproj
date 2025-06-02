@@ -1,0 +1,8 @@
+<ItemGroup>
+  <Reference Include="Grasshopper">
+    <HintPath>/Applications/Rhino 7.app/Contents/Frameworks/RhCore.framework/Versions/Current/Resources/ManagedPlugIns/Grasshopper/Grasshopper.dll</HintPath>
+  </Reference>
+  <Reference Include="RhinoCommon">
+    <HintPath>/Applications/Rhino 7.app/Contents/Frameworks/RhCore.framework/Versions/Current/Resources/RhinoCommon.dll</HintPath>
+  </Reference>
+</ItemGroup> 

@@ -1,0 +1,125 @@
+# Grasshopper Component JSON Structure Documentation
+
+This document describes the structure of the JSON file exported by the JSONSelectedComponentsExporterComponent.
+
+## Root Structure
+```json
+{
+  "groups": {
+    "canvas": { ... },  // The root canvas group
+    "group_id": { ... } // Individual groups by their hash code
+  }
+}
+```
+
+## Group Structure
+Each group (including the canvas) follows this structure:
+```json
+{
+  "name": "string",           // Group name
+  "type": "group|canvas",     // Type of group
+  "parent": "string|null",    // Parent group ID or null for canvas
+  "children": [string],       // Array of child group IDs
+  "components": {             // Components in this group
+    "component_id": { ... }   // Components by their hash code
+  },
+  "connections": [            // Connections between components
+    {
+      "from": "path:port",    // Source component and port
+      "to": "path:port"       // Target component and port
+    }
+  ]
+}
+```
+
+## Component Structure
+Each component follows this structure:
+```json
+{
+  "name": "string",           // Component name
+  "position": [x, y],         // Position coordinates
+  "value": "string",          // Optional value (for parameters)
+  "inputs": {                 // Input parameters with data handling options
+    "param_name": ["flatten", "graft", "simplify", "reverse"]  // Array of data handling options
+  },
+  "outputs": {                // Output parameters with data handling options
+    "param_name": ["flatten", "graft", "simplify", "reverse"]  // Array of data handling options
+  },
+  "script": "string",         // Optional script content (for Python components)
+  "min": number,              // Optional minimum value (for sliders)
+  "max": number               // Optional maximum value (for sliders)
+}
+```
+
+## Data Handling Options
+Each parameter can have multiple data handling options:
+- `flatten`: Flattens the data structure
+- `graft`: Grafts the data structure
+- `simplify`: Simplifies the data structure
+- `reverse`: Reverses the data structure
+
+If no data handling options are specified, the array will be empty.
+
+## Path Format
+Component paths in connections follow this format:
+```
+group_id/child_group_id/component_id:port_name
+```
+
+## Connection Rules
+1. Connections are stored in the most specific group that contains all components involved
+2. If components are in different branches, the connection goes to their lowest common ancestor
+3. If no common ancestor exists (except canvas), the connection goes to the canvas
+4. Components in nested groups only appear in their most specific group
+5. Parent groups only show components that are directly in them (not in child groups)
+
+## Example
+```json
+{
+  "groups": {
+    "canvas": {
+      "name": "Canvas",
+      "type": "canvas",
+      "parent": null,
+      "children": ["123", "456"],
+      "components": {
+        "111": {
+          "name": "Box 2Pt",
+          "position": [120, 120],
+          "inputs": {
+            "Point1": ["flatten", "simplify"],
+            "Point2": ["graft", "reverse"]
+          },
+          "outputs": {
+            "Box": ["simplify"]
+          }
+        }
+      },
+      "connections": []
+    },
+    "123": {
+      "name": "Large Group",
+      "type": "group",
+      "parent": "canvas",
+      "components": {
+        "222": {
+          "name": "Panel",
+          "position": [120, 120],
+          "value": "Hello World",
+          "inputs": {},
+          "outputs": {}
+        }
+      },
+      "connections": []
+    }
+  }
+}
+```
+
+## Notes
+- All arrays for position, bounds, and color are written on a single line
+- Group and component IDs are hash codes of their GUIDs
+- The canvas is the root parent of all groups
+- Components only appear in their most specific group
+- Connections are stored in the most specific group that contains all involved components
+- Data handling options are stored as arrays of strings for each parameter 

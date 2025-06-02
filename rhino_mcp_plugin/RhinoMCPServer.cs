@@ -320,7 +320,10 @@ namespace RhinoMCPPlugin
                 ["select_objects"] = this.handler.SelectObjects,
                 ["create_layer"] = this.handler.CreateLayer,
                 ["get_or_set_current_layer"] = this.handler.GetOrSetCurrentLayer,
-                ["delete_layer"] = this.handler.DeleteLayer
+                ["delete_layer"] = this.handler.DeleteLayer,
+                ["open_grasshopper"] = this.handler.OpenGrasshopper,
+                ["import_grasshopper_definition"] = this.handler.ImportGrasshopperDefinition,
+                ["export_grasshopper_definition"] = this.handler.ExportGrasshopperDefinition
                 // Add more handlers as needed
             };
 
